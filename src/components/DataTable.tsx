@@ -36,94 +36,6 @@ const randomRole = () => {
     return randomArrayItem(roles);
 };
 
-const initialRows: GridRowsProp = [
-    {
-        id: randomId(),
-        name: randomTraderName(),
-        age: 25,
-        joinDate: randomCreatedDate(),
-        role: randomRole(),
-    },
-    {
-        id: randomId(),
-        name: randomTraderName(),
-        age: 36,
-        joinDate: randomCreatedDate(),
-        role: randomRole(),
-    },
-    {
-        id: randomId(),
-        name: randomTraderName(),
-        age: 19,
-        joinDate: randomCreatedDate(),
-        role: randomRole(),
-    },
-    {
-        id: randomId(),
-        name: randomTraderName(),
-        age: 28,
-        joinDate: randomCreatedDate(),
-        role: randomRole(),
-    },
-    {
-        id: randomId(),
-        name: randomTraderName(),
-        age: 23,
-        joinDate: randomCreatedDate(),
-        role: randomRole(),
-    },
-];
-
-interface EditToolbarProps {
-    setRows: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
-    setRowModesModel: (
-        newModel: (oldModel: GridRowModesModel) => GridRowModesModel,
-    ) => void;
-}
-
-function EditToolbar(props: EditToolbarProps) {
-    const { setRows, setRowModesModel } = props;
-
-    const handleClick = () => {
-        const id = randomId();
-        setRows((oldRows) => [...oldRows, { id, name: '', code: '', assignDate: '', editable: false, isNew: true }]);
-        setRowModesModel((oldModel) => ({
-            ...oldModel,
-            [id]: { mode: GridRowModes.Edit, fieldToFocus: 'name' },
-        }));
-    };
-
-    return (
-        <GridToolbarContainer>
-            <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
-                Add record
-            </Button>
-        </GridToolbarContainer>
-    );
-}
-const renderEditableCell = (params: any, field: string) => {
-    const { id, field: fieldName, value, api } = params;
-
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const newValue = event.target.value;
-        api.setEditCellValue({ id, field: fieldName }, newValue);
-    };
-
-    return (
-        <TextField
-            fullWidth
-            size="small"
-            value={value}
-            onChange={handleInputChange}
-            inputProps={{
-                pattern: field === 'type' ? '^\\w{2}\\d{3}$' : '^[a-zA-Z]*$',
-                title: field === 'type' ? 'İlk iki harf kelime sonraki 3 karakter sayı olmalı' : 'Sadece harfler kabul edilir',
-            }}
-        />
-    );
-};
-
-
 export default function DataTable() {
     const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>({});
 
@@ -231,13 +143,11 @@ export default function DataTable() {
         {
             field: 'id',
             editable: true,
-            //renderCell: (params) => renderEditableCell(params, 'name'),
             headerName: 'ID', type: 'string', width: 180
         },
         {
             field: 'name',
             editable: true,
-            //renderCell: (params) => renderEditableCell(params, 'name'),
             headerName: 'Name', type: 'string', width: 180
         },
         {

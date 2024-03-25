@@ -25,7 +25,6 @@ interface FormData {
 const locales = ['tr'];
 type LocaleKey = (typeof locales)[number];
 
-
 const schema = yup.object().shape({
     code: yup.string().required('First Name is required').matches(/^[a-zA-Z]{2}\d{3}$/, 'pattern'),
     name: yup.string().required('Name is required').matches(/[a-zA-ZığüşöçİĞÜŞÖÇ]+/, 'pattern'),
