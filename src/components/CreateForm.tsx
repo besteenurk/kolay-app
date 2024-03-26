@@ -26,8 +26,8 @@ const locales = ['tr'];
 type LocaleKey = (typeof locales)[number];
 
 const schema = yup.object().shape({
-    code: yup.string().required('First Name is required').matches(/^[a-zA-Z]{2}\d{3}$/, 'pattern'),
-    name: yup.string().required('Name is required').matches(/[a-zA-ZığüşöçİĞÜŞÖÇ]+/, 'pattern'),
+    code: yup.string().required('Code is required').matches(/^[a-zA-Z]{2}\d{3}$/, 'Invalid pattern'),
+    name: yup.string().required('Name is required').matches(/[a-zA-ZığüşöçİĞÜŞÖÇ]+/, 'Invalid pattern').max(12, 'Name must be exactly max 12 characters'),
     assignDate: yup.date().required('Date is required'),
     editable: yup.boolean(),
 });
@@ -86,7 +86,8 @@ const CreateForm: React.FC = () => {
                         control={control}
                         defaultValue=""
                         render={({ field }) => (
-                            <Tooltip title='2 char 3 num' arrow>
+                            <Tooltip title='First 2 character letters,
+                            last 3 characters digit' arrow>
                                 <TextField
                                     {...field}
                                     label="Code"
@@ -102,7 +103,7 @@ const CreateForm: React.FC = () => {
                         control={control}
                         defaultValue=""
                         render={({ field }) => (
-                            <Tooltip title='alph only' arrow>
+                            <Tooltip title='Max 12 character' arrow>
                                 <TextField
                                     {...field}
                                     label="Name"
@@ -131,12 +132,11 @@ const CreateForm: React.FC = () => {
                             <FormControlLabel
                                 control={<Checkbox {...field} />}
                                 label="Is Updatable"
-                            // error={!!errors.agreement} // error özelliğini buradan kaldırın
                             />
                         )}
                     />
                     {errors.editable && <span style={{ color: 'red' }}>Required</span>}
-                    <button type="submit">Submit</button>
+                    <button type="submit">Save</button>
                 </form>
             </Box>
         </div>
